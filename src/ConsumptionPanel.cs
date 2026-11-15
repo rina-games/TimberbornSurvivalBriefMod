@@ -120,6 +120,7 @@ namespace Jove.SurvivalBrief
                     _tooltipRegistrar,
                     _loc,
                     _model,
+                    _countdown,
                     () => _openPanel = null);
 
                 _openPanel = panel;

@@ -42,8 +42,23 @@ Jove.SurvivalBrief.Con.ColDays,Lasts,-
 Jove.SurvivalBrief.Con.Sites,{0} sites,-
 Jove.SurvivalBrief.Con.Missing,{0} missing,-
 Jove.SurvivalBrief.Con.BuildingCount,x{0} ({1} working),-
-Jove.SurvivalBrief.Con.BarText,{0}/{1}/{2},-
+Jove.SurvivalBrief.Con.BarText,{0} buildings · {1}/day · stock {2},-
 Jove.SurvivalBrief.Con.DaysChip,{0} d,-
 Jove.SurvivalBrief.Con.PerDayChip,{0}/day,-
 Jove.SurvivalBrief.Con.BuildingSection,Buildings,-
 Jove.SurvivalBrief.Con.BuildingSummary,{0} under construction · {1} producing,-
+Jove.SurvivalBrief.Con.Brief,Overview,-
+Jove.SurvivalBrief.Con.HazardDrought,Drought in,-
+Jove.SurvivalBrief.Con.HazardBadtide,Badtide in,-
+Jove.SurvivalBrief.Con.HazardDroughtNow,Drought,-
+Jove.SurvivalBrief.Con.HazardBadtideNow,Badtide,-
+Jove.SurvivalBrief.Con.HazardBar,{0} days left,-
+Jove.SurvivalBrief.Con.HazardRemain,{0} left,-
+Jove.SurvivalBrief.Con.TooltipBriefSupply,{0} buildings · {1}/day · stock {2},-
+Jove.SurvivalBrief.Con.TooltipBriefSupplyDays,use {0}/day · lasts {1} days,-
+Jove.SurvivalBrief.Con.TooltipBriefBuildings,{0} buildings · {1} working,-
+Jove.SurvivalBrief.Con.TooltipBriefSites,{0} under construction · {1} kinds,-
+Jove.SurvivalBrief.Con.StockBar,{0} in stock · {1} / day,-
+Jove.SurvivalBrief.Con.SupplyBar,{0} sites · {1} in stock · {2} / day,-
+Jove.SurvivalBrief.Con.BuildingBar,{0} producing · {1} sites,-
+Jove.SurvivalBrief.Con.BuildingDetailBar,{0} built · {1} working · stock {2},-

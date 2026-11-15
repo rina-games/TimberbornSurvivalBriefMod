@@ -13,6 +13,11 @@
     <TimberbornManaged Condition="'$(TimberbornManaged)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Timberborn/Timberborn.app/Contents/Resources/Data/Managed</TimberbornManaged>
   </PropertyGroup>
 
+  <!-- The game loads the mod from Documents/Timberborn/Mods/SurvivalBrief. Override path from the command line if needed. -->
+  <PropertyGroup>
+    <ModInstallDir Condition="'$(ModInstallDir)' == ''">$(HOME)/Documents/Timberborn/Mods/SurvivalBrief</ModInstallDir>
+  </PropertyGroup>
+
   <ItemGroup>
     <Reference Include="Timberborn.GameCycleSystem">
       <HintPath>$(TimberbornManaged)/Timberborn.GameCycleSystem.dll</HintPath>
@@ -56,6 +61,10 @@
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule">
       <HintPath>$(TimberbornManaged)/UnityEngine.UIElementsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(TimberbornManaged)/UnityEngine.ImageConversionModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Timberborn.EntityNaming">
@@ -164,8 +173,22 @@
     </Reference>
   </ItemGroup>
 
-  <Target Name="CopyToScripts" AfterTargets="Build">
+  <ItemGroup>
+    <EmbeddedResource Include="github-mark.png">
+      <LogicalName>Jove.SurvivalBrief.github-mark.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <Target Name="DeployToGameMod" AfterTargets="Build">
+    <ItemGroup>
+      <_LocalizationFiles Include="$(MSBuildProjectDirectory)/../Localizations/*.csv" />
+    </ItemGroup>
+    <MakeDir Directories="$(ModInstallDir)/Scripts;$(ModInstallDir)/Localizations" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModInstallDir)/Scripts" />
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)/../Scripts" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)/../manifest.json" DestinationFolder="$(ModInstallDir)" />
+    <Copy SourceFiles="$(MSBuildProjectDirectory)/../thumbnail.png" DestinationFolder="$(ModInstallDir)" />
+    <Copy SourceFiles="@(_LocalizationFiles)" DestinationFolder="$(ModInstallDir)/Localizations" />
   </Target>
 
 </Project>

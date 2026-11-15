@@ -42,8 +42,23 @@ Jove.SurvivalBrief.Con.ColDays,可撑,-
 Jove.SurvivalBrief.Con.Sites,在建 {0} 处,-
 Jove.SurvivalBrief.Con.Missing,还缺 {0},-
 Jove.SurvivalBrief.Con.BuildingCount,×{0}（开工 {1}）,-
-Jove.SurvivalBrief.Con.BarText,{0}/{1}/{2},-
+Jove.SurvivalBrief.Con.BarText,{0}座 · 日产{1} · 库存{2},-
 Jove.SurvivalBrief.Con.DaysChip,{0} 天,-
 Jove.SurvivalBrief.Con.PerDayChip,{0}/天,-
 Jove.SurvivalBrief.Con.BuildingSection,建筑,-
 Jove.SurvivalBrief.Con.BuildingSummary,在建 {0} 处 · 生产 {1} 类,-
+Jove.SurvivalBrief.Con.Brief,概览,-
+Jove.SurvivalBrief.Con.HazardDrought,干旱将至,-
+Jove.SurvivalBrief.Con.HazardBadtide,恶水潮将至,-
+Jove.SurvivalBrief.Con.HazardDroughtNow,干旱中,-
+Jove.SurvivalBrief.Con.HazardBadtideNow,恶水潮中,-
+Jove.SurvivalBrief.Con.HazardBar,还剩 {0} 天,-
+Jove.SurvivalBrief.Con.HazardRemain,还剩 {0},-
+Jove.SurvivalBrief.Con.TooltipBriefSupply,建筑 {0} · 每天产量 {1} · 库存 {2},-
+Jove.SurvivalBrief.Con.TooltipBriefSupplyDays,消耗 {0}/天 · 可撑 {1} 天,-
+Jove.SurvivalBrief.Con.TooltipBriefBuildings,建筑 {0} · 开工 {1},-
+Jove.SurvivalBrief.Con.TooltipBriefSites,在建 {0} 处 · {1} 类,-
+Jove.SurvivalBrief.Con.StockBar,库存 {0} · 每天 {1},-
+Jove.SurvivalBrief.Con.SupplyBar,{0} 座 · 库存 {1} · 每天 {2},-
+Jove.SurvivalBrief.Con.BuildingBar,{0} 处生产 · {1} 处在建,-
+Jove.SurvivalBrief.Con.BuildingDetailBar,{0} 座 · 开工 {1} · 库存 {2},-

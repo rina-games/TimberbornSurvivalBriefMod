@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Reflection;
 using Timberborn.CoreUI;
 using Timberborn.Localization;
 using Timberborn.TooltipSystem;
@@ -20,11 +21,15 @@ namespace Jove.SurvivalBrief
         private const float DaysForFullBar = 20f;
         private const float ChipWidth = 76f;
 
+        private static readonly Color HazardFill = new Color(0.79f, 0.62f, 0.22f, 1f);
+        private static readonly Color HazardText = new Color(0.95f, 0.82f, 0.45f, 1f);
+
         private readonly PanelStack _panelStack;
         private readonly VisualElementLoader _visualElementLoader;
         private readonly ITooltipRegistrar _tooltipRegistrar;
         private readonly ILoc _loc;
         private readonly ConsumptionModel _model;
+        private readonly WeatherCountdown _countdown;
         private readonly System.Action _onClosed;
 
         private readonly VisualElement _root;
@@ -39,6 +44,7 @@ namespace Jove.SurvivalBrief
             ITooltipRegistrar tooltipRegistrar,
             ILoc loc,
             ConsumptionModel model,
+            WeatherCountdown countdown,
             System.Action onClosed)
         {
             _panelStack = panelStack;
@@ -46,6 +52,7 @@ namespace Jove.SurvivalBrief
             _tooltipRegistrar = tooltipRegistrar;
             _loc = loc;
             _model = model;
+            _countdown = countdown;
             _onClosed = onClosed;
 
             _root = Load(BoxPath);
@@ -80,6 +87,7 @@ namespace Jove.SurvivalBrief
             _scroll.contentContainer.RegisterCallback<GeometryChangedEvent>(FitScroll);
             _root.RegisterCallback<GeometryChangedEvent>(FitScroll);
 
+            AddFooter();
             Build();
         }
 
@@ -219,6 +227,98 @@ namespace Jove.SurvivalBrief
             return Mathf.Max(160f, limit);
         }
 
+        private const string RepoName = "TimberbornSurvivalBriefMod";
+        private const string RepoUrl = "https://github.com/rina-games/TimberbornSurvivalBriefMod";
+
+        private void AddFooter()
+        {
+            var footer = new VisualElement();
+            footer.style.flexDirection = FlexDirection.Row;
+            footer.style.justifyContent = Justify.Center;
+            footer.style.alignItems = Align.Center;
+            footer.style.flexShrink = 0;
+            footer.style.marginTop = 8;
+            footer.style.marginBottom = 8;
+
+            footer.Add(FooterText(ModVersion() + "  ·  jove.rina@outlook.com  ·  "));
+
+            var link = new VisualElement();
+            link.style.flexDirection = FlexDirection.Row;
+            link.style.alignItems = Align.Center;
+            link.style.flexShrink = 0;
+            var icon = GithubIcon();
+            if (icon != null)
+            {
+                link.Add(icon);
+            }
+
+            link.Add(FooterText(RepoName));
+            link.RegisterCallback<ClickEvent>(OpenRepository);
+            System.Func<string> tip = () => RepoUrl;
+            _tooltipRegistrar.Register(link, tip);
+            footer.Add(link);
+
+            var parent = _scroll.parent;
+            parent.Insert(parent.IndexOf(_scroll) + 1, footer);
+        }
+
+        private static void OpenRepository(ClickEvent clickEvent)
+        {
+            Application.OpenURL(RepoUrl);
+        }
+
+        private static Label FooterText(string text)
+        {
+            var label = new Label(text);
+            label.AddToClassList("game-text-small");
+            label.style.whiteSpace = WhiteSpace.NoWrap;
+            label.style.flexShrink = 0;
+            return label;
+        }
+
+        private static Image GithubIcon()
+        {
+            var assembly = typeof(ConsumptionDetailPanel).Assembly;
+            using (var stream = assembly.GetManifestResourceStream("Jove.SurvivalBrief.github-mark.png"))
+            {
+                if (stream == null)
+                {
+                    return null;
+                }
+
+                var bytes = new byte[stream.Length];
+                stream.Read(bytes, 0, bytes.Length);
+                var texture = new Texture2D(2, 2, TextureFormat.RGBA32, false);
+                if (!texture.LoadImage(bytes))
+                {
+                    return null;
+                }
+
+                texture.filterMode = FilterMode.Bilinear;
+                var image = new Image();
+                image.image = texture;
+                image.style.width = 12;
+                image.style.height = 12;
+                image.style.marginRight = 4;
+                image.style.flexShrink = 0;
+                return image;
+            }
+        }
+
+        private static string ModVersion()
+        {
+            var info = typeof(ConsumptionDetailPanel).Assembly
+                .GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            var version = info == null ? null : info.InformationalVersion;
+            if (string.IsNullOrEmpty(version))
+            {
+                return "0.1.0";
+            }
+
+            var plus = version.IndexOf('+');
+            return plus < 0 ? version : version.Substring(0, plus);
+        }
+
         private void BuildSummary(VisualElement header)
         {
             header.Clear();
@@ -257,11 +357,20 @@ namespace Jove.SurvivalBrief
             return label;
         }
 
+        private enum MeterTone
+        {
+            Normal,
+            Low,
+            Hazard
+        }
+
         private void Build()
         {
             _scroll.Clear();
             _groupCount = 0;
             _appliedScrollHeight = float.NaN;
+
+            AddOverview();
 
             if (_model.Eaters <= 0)
             {
@@ -310,6 +419,171 @@ namespace Jove.SurvivalBrief
             }
         }
 
+        private void AddOverview()
+        {
+            var rows = new List<VisualElement>();
+
+            var hazard = HazardRow();
+            if (hazard != null)
+            {
+                rows.Add(hazard);
+            }
+
+            if (_model.Water != null)
+            {
+                rows.Add(AggregateSupplyRow(_loc.T("Jove.SurvivalBrief.Con.Water"), _model.Water));
+            }
+
+            if (_model.Eaters > 0)
+            {
+                var buildings = 0;
+                var produced = 0f;
+                foreach (var food in _model.Foods)
+                {
+                    buildings += food.ProducerBuildings;
+                    produced += food.ProducedPerDay;
+                }
+
+                rows.Add(StockMeter(
+                    _loc.T("Jove.SurvivalBrief.Con.Food"),
+                    buildings,
+                    produced,
+                    _model.FoodTotalStock,
+                    _model.FoodTotalDays,
+                    SupplyTooltip(buildings, produced, _model.FoodTotalStock, _model.FoodTotalPerDay, _model.FoodTotalDays)));
+            }
+
+            var buildingCount = 0;
+            var producing = 0;
+            var output = 0f;
+            var buildingStock = 0;
+            foreach (var draw in _model.BuildingDraws)
+            {
+                buildingCount += draw.Buildings;
+                producing += draw.Working;
+                output += draw.OutputPerDay;
+                buildingStock += draw.Stock;
+            }
+
+            var sites = 0;
+            foreach (var need in _model.ConstructionNeeds)
+            {
+                sites += need.Sites;
+            }
+
+            if (buildingCount > 0 || sites > 0 || output > 0f)
+            {
+                var fill = buildingCount <= 0 ? 0f : Mathf.Clamp01((float)producing / buildingCount);
+                var row = MeterRow(
+                    _loc.T("Jove.SurvivalBrief.Con.Buildings"),
+                    Triple(buildingCount, output, buildingStock),
+                    fill,
+                    MeterTone.Normal,
+                    FormatCount(buildingStock));
+                var tooltip = _loc.T(
+                        "Jove.SurvivalBrief.Con.TooltipBriefBuildings",
+                        FormatCount(buildingCount),
+                        producing)
+                    + "\n"
+                    + _loc.T(
+                        "Jove.SurvivalBrief.Con.TooltipBuildingOutput",
+                        FormatCount(output),
+                        FormatCount(buildingStock))
+                    + "\n"
+                    + _loc.T("Jove.SurvivalBrief.Con.TooltipBriefSites", sites, _model.BuildingDraws.Count);
+                _tooltipRegistrar.Register(row, () => tooltip);
+                rows.Add(row);
+            }
+
+            if (rows.Count == 0)
+            {
+                return;
+            }
+
+            var items = BeginGroup(_loc.T("Jove.SurvivalBrief.Con.Brief"));
+            foreach (var row in rows)
+            {
+                items.Add(row);
+            }
+        }
+
+        private VisualElement HazardRow()
+        {
+            if (_countdown == null || _countdown.Kind == HazardKind.None || _countdown.RemainingDays <= 0f)
+            {
+                return null;
+            }
+
+            var inHazard = _countdown.InHazard;
+            string name;
+            if (_countdown.Kind == HazardKind.Badtide)
+            {
+                name = _loc.T(inHazard
+                    ? "Jove.SurvivalBrief.Con.HazardBadtideNow"
+                    : "Jove.SurvivalBrief.Con.HazardBadtide");
+            }
+            else
+            {
+                name = _loc.T(inHazard
+                    ? "Jove.SurvivalBrief.Con.HazardDroughtNow"
+                    : "Jove.SurvivalBrief.Con.HazardDrought");
+            }
+
+            var duration = _countdown.DurationText;
+            var fill = Mathf.Clamp01(_countdown.RemainingDays / Mathf.Max(0.01f, _countdown.SpanDays));
+            var row = MeterRow(
+                name,
+                _loc.T("Jove.SurvivalBrief.Con.HazardRemain", duration),
+                fill,
+                MeterTone.Hazard,
+                duration);
+            System.Func<string> hazardTip = () =>
+            {
+                var text = _countdown.Text;
+                return string.IsNullOrEmpty(text) ? name : text;
+            };
+            _tooltipRegistrar.Register(row, hazardTip);
+            return row;
+        }
+
+        private VisualElement AggregateSupplyRow(string name, SupplyLine line)
+        {
+            return StockMeter(
+                name,
+                line.ProducerBuildings,
+                line.ProducedPerDay,
+                line.Stock,
+                line.DaysLeft,
+                SupplyTooltip(line.ProducerBuildings, line.ProducedPerDay, line.Stock, line.TotalPerDay, line.DaysLeft));
+        }
+
+        private string SupplyTooltip(int buildings, float producedPerDay, float stock, float consumedPerDay, float daysLeft)
+        {
+            var days = daysLeft.ToString("0.#");
+            return _loc.T(
+                    "Jove.SurvivalBrief.Con.TooltipBriefSupply",
+                    FormatCount(buildings),
+                    FormatCount(producedPerDay),
+                    FormatCount(stock))
+                + "\n"
+                + _loc.T(
+                    "Jove.SurvivalBrief.Con.TooltipBriefSupplyDays",
+                    consumedPerDay.ToString("0.#"),
+                    days);
+        }
+
+        private VisualElement StockMeter(string name, int buildings, float perDay, float stock, float daysLeft, string tooltip)
+        {
+            var row = MeterRow(
+                name,
+                Triple(buildings, perDay, stock),
+                Mathf.Clamp01(daysLeft / DaysForFullBar),
+                daysLeft < 2f ? MeterTone.Low : MeterTone.Normal,
+                _loc.T("Jove.SurvivalBrief.Con.DaysChip", daysLeft.ToString("0.#")));
+            _tooltipRegistrar.Register(row, () => tooltip);
+            return row;
+        }
+
         private VisualElement BeginGroup(string title)
         {
             var group = Load(GroupPath);
@@ -351,13 +625,9 @@ namespace Jove.SurvivalBrief
             var low = line.DaysLeft < 2f;
             var row = MeterRow(
                 line.Name,
-                _loc.T(
-                    "Jove.SurvivalBrief.Con.BarText",
-                    line.ProducerBuildings,
-                    FormatCount(line.ProducedPerDay),
-                    FormatCount(line.Stock)),
+                Triple(line.ProducerBuildings, line.ProducedPerDay, line.Stock),
                 Mathf.Clamp01(line.DaysLeft / DaysForFullBar),
-                low,
+                low ? MeterTone.Low : MeterTone.Normal,
                 _loc.T("Jove.SurvivalBrief.Con.DaysChip", line.DaysLeft.ToString("0.#")));
 
             var tooltip = _loc.T("Jove.SurvivalBrief.Con.TooltipSupplyHead", line.Name)
@@ -379,7 +649,7 @@ namespace Jove.SurvivalBrief
                 need.GoodName,
                 _loc.T("Jove.SurvivalBrief.Con.Sites", need.Sites),
                 0f,
-                true,
+                MeterTone.Low,
                 _loc.T("Jove.SurvivalBrief.Con.Missing", need.Remaining));
 
             var tooltip = _loc.T("Jove.SurvivalBrief.Con.TooltipConstruction", need.GoodName, need.Remaining, need.Sites);
@@ -392,13 +662,9 @@ namespace Jove.SurvivalBrief
             var fill = draw.Buildings <= 0 ? 0f : Mathf.Clamp01((float)draw.Working / draw.Buildings);
             var row = MeterRow(
                 draw.BuildingName,
-                _loc.T(
-                    "Jove.SurvivalBrief.Con.BarText",
-                    draw.Buildings,
-                    FormatCount(draw.OutputPerDay),
-                    FormatCount(draw.Stock)),
+                Triple(draw.Buildings, draw.OutputPerDay, draw.Stock),
                 fill,
-                false,
+                MeterTone.Normal,
                 FormatCount(draw.Stock));
 
             var tooltip = _loc.T("Jove.SurvivalBrief.Con.TooltipBuilding", draw.BuildingName)
@@ -413,7 +679,7 @@ namespace Jove.SurvivalBrief
             return row;
         }
 
-        private VisualElement MeterRow(string name, string centerText, float fill01, bool low, string chipText)
+        private VisualElement MeterRow(string name, string centerText, float fill01, MeterTone tone, string chipText)
         {
             var row = Load(RowPath);
             row.style.flexShrink = 0;
@@ -421,11 +687,18 @@ namespace Jove.SurvivalBrief
             var nameLabel = row.Q<Label>("Text");
             nameLabel.text = name;
 
+            var low = tone == MeterTone.Low;
+            var hazard = tone == MeterTone.Hazard;
             var progress = row.Q("Progress");
             var track = row.Q("ProgressWrapper");
             progress.style.width = Length.Percent(Mathf.Clamp01(fill01) * 100f);
             progress.EnableInClassList(NegativeClass, low);
             track.EnableInClassList(NegativeClass, low);
+            if (hazard)
+            {
+                progress.style.backgroundImage = new StyleBackground(StyleKeyword.None);
+                progress.style.backgroundColor = HazardFill;
+            }
 
             var center = row.Q<Label>("Count");
             center.text = centerText;
@@ -433,13 +706,29 @@ namespace Jove.SurvivalBrief
 
             var chip = row.Q<Label>("AverageWellbeingShare");
             chip.text = chipText;
-            chip.EnableInClassList(PositiveClass, !low);
+            chip.EnableInClassList(PositiveClass, tone == MeterTone.Normal);
             chip.EnableInClassList(NegativeClass, low);
+            if (hazard)
+            {
+                chip.style.color = HazardText;
+                chip.style.width = StyleKeyword.Auto;
+                chip.style.minWidth = ChipWidth;
+            }
+
             chip.style.width = ChipWidth;
             chip.style.flexShrink = 0;
             chip.style.whiteSpace = WhiteSpace.NoWrap;
 
             return row;
+        }
+
+        private string Triple(float buildings, float perDay, float stock)
+        {
+            return _loc.T(
+                "Jove.SurvivalBrief.Con.BarText",
+                FormatCount(buildings),
+                FormatCount(perDay),
+                FormatCount(stock));
         }
 
         private static string FormatCount(float value)

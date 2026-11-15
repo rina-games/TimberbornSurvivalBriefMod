@@ -37,6 +37,12 @@ namespace Jove.SurvivalBrief
 
         public float RemainingHours { get; private set; }
 
+        public float RemainingDays { get; private set; }
+
+        public float SpanDays { get; private set; }
+
+        public string DurationText { get; private set; } = "";
+
         public string Text { get; private set; } = "";
 
         public WeatherCountdown(
@@ -109,6 +115,9 @@ namespace Jove.SurvivalBrief
             if (Kind == HazardKind.None)
             {
                 RemainingHours = 0f;
+                RemainingDays = 0f;
+                SpanDays = 0f;
+                DurationText = "";
                 Text = "";
                 return;
             }
@@ -121,15 +130,21 @@ namespace Jove.SurvivalBrief
                 ? startDay + hazardDuration - partialCycleDay
                 : startDay - partialCycleDay;
 
-            RemainingHours = remainingDays * HoursPerDay;
+            RemainingDays = Mathf.Max(0f, remainingDays);
+            SpanDays = InHazard
+                ? Mathf.Max(0.01f, hazardDuration)
+                : Mathf.Max(0.01f, startDay - 1f);
+            RemainingHours = RemainingDays * HoursPerDay;
 
             if (RemainingHours <= 0f)
             {
+                DurationText = "";
                 Text = "";
                 return;
             }
 
-            Text = _loc.T(LocKey(), FormatDuration(RemainingHours));
+            DurationText = FormatDuration(RemainingHours);
+            Text = _loc.T(LocKey(), DurationText);
         }
 
         private string FormatDuration(float hours)
