@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+*.user
+*.suo
+.vs/
+.idea/
+
+# dotnet（游戏只应加载 Scripts 下的成品 dll）
+src/obj/
+src/bin/
+**/obj/
+**/bin/

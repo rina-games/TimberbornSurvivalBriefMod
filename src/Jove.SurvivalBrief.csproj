@@ -1,0 +1,171 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>Jove.SurvivalBrief</AssemblyName>
+    <RootNamespace>Jove.SurvivalBrief</RootNamespace>
+    <Version>0.1.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <!-- 游戏程序集目录：可用 -p:TimberbornManaged=... 覆盖 -->
+    <TimberbornManaged Condition="'$(TimberbornManaged)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Timberborn/Timberborn.app/Contents/Resources/Data/Managed</TimberbornManaged>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Timberborn.GameCycleSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.GameCycleSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.WeatherSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.WeatherSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.HazardousWeatherSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.HazardousWeatherSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.SingletonSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.SingletonSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.CoreUI">
+      <HintPath>$(TimberbornManaged)/Timberborn.CoreUI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.UILayoutSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.UILayoutSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Localization">
+      <HintPath>$(TimberbornManaged)/Timberborn.Localization.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Bindito.Core">
+      <HintPath>$(TimberbornManaged)/Bindito.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(TimberbornManaged)/UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(TimberbornManaged)/UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIElementsModule">
+      <HintPath>$(TimberbornManaged)/UnityEngine.UIElementsModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.EntityNaming">
+      <HintPath>$(TimberbornManaged)/Timberborn.EntityNaming.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.EntitySystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.EntitySystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.NaturalResources">
+      <HintPath>$(TimberbornManaged)/Timberborn.NaturalResources.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.NaturalResourcesLifecycle">
+      <HintPath>$(TimberbornManaged)/Timberborn.NaturalResourcesLifecycle.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Forestry">
+      <HintPath>$(TimberbornManaged)/Timberborn.Forestry.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Fields">
+      <HintPath>$(TimberbornManaged)/Timberborn.Fields.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Growing">
+      <HintPath>$(TimberbornManaged)/Timberborn.Growing.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Cutting">
+      <HintPath>$(TimberbornManaged)/Timberborn.Cutting.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Gathering">
+      <HintPath>$(TimberbornManaged)/Timberborn.Gathering.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Yielding">
+      <HintPath>$(TimberbornManaged)/Timberborn.Yielding.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Goods">
+      <HintPath>$(TimberbornManaged)/Timberborn.Goods.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.TooltipSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.TooltipSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Common">
+      <HintPath>$(TimberbornManaged)/Timberborn.Common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.BaseComponentSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.BaseComponentSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.BlueprintSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.BlueprintSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.GoodsUI">
+      <HintPath>$(TimberbornManaged)/Timberborn.GoodsUI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Population">
+      <HintPath>$(TimberbornManaged)/Timberborn.Population.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.NeedSpecs">
+      <HintPath>$(TimberbornManaged)/Timberborn.NeedSpecs.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Workshops">
+      <HintPath>$(TimberbornManaged)/Timberborn.Workshops.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.ResourceCountingSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.ResourceCountingSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>$(TimberbornManaged)/System.Collections.Immutable.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.ConstructionSites">
+      <HintPath>$(TimberbornManaged)/Timberborn.ConstructionSites.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.Beavers">
+      <HintPath>$(TimberbornManaged)/Timberborn.Beavers.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.TickSystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.TickSystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.InventorySystem">
+      <HintPath>$(TimberbornManaged)/Timberborn.InventorySystem.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Timberborn.ResourceCountingSystemUI">
+      <HintPath>$(TimberbornManaged)/Timberborn.ResourceCountingSystemUI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CopyToScripts" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)/../Scripts" />
+  </Target>
+
+</Project>

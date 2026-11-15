@@ -1,0 +1,49 @@
+ID,Text,Comment
+Jove.SurvivalBrief.Duration.Days,{0} 天,-
+Jove.SurvivalBrief.Duration.Hours,{0} 小时,-
+Jove.SurvivalBrief.Duration.Minutes,{0} 分钟,-
+Jove.SurvivalBrief.Duration.DaysHours,{0} 天 {1} 小时,-
+Jove.SurvivalBrief.DroughtIn,干旱 {0}后,-
+Jove.SurvivalBrief.BadtideIn,恶水潮 {0}后,-
+Jove.SurvivalBrief.DroughtLeft,干旱还剩 {0},-
+Jove.SurvivalBrief.BadtideLeft,恶水潮还剩 {0},-
+Jove.SurvivalBrief.Con.Header,消耗分析,-
+Jove.SurvivalBrief.Con.NoBeavers,还没有海狸,-
+Jove.SurvivalBrief.Con.Pop,海狸 {0} 只（成年 {1} / 幼年 {2}）,-
+Jove.SurvivalBrief.Con.Needs,每只每天：食物 {0} 点 · 水 {1} 点,-
+Jove.SurvivalBrief.Con.Food,食物,-
+Jove.SurvivalBrief.Con.Water,水,-
+Jove.SurvivalBrief.Con.Buildings,建筑消耗,-
+Jove.SurvivalBrief.Con.None,无,-
+Jove.SurvivalBrief.Con.Row,{0}/只·天 · {1}/天 · 可撑 {2} 天,-
+Jove.SurvivalBrief.Con.RowBuilding,{0}×{1}（开工 {2}）,-
+Jove.SurvivalBrief.Con.RowBuildingAmount,{0} {1}/天,-
+Jove.SurvivalBrief.Con.TooltipSupplyHead,{0},-
+Jove.SurvivalBrief.Con.TooltipSupplyBody,建筑 {0} · 每天产量 {1} · 库存 {2},-
+Jove.SurvivalBrief.Con.TooltipBuilding,{0},-
+Jove.SurvivalBrief.Con.TooltipBuildingBody,建筑 {0} · 开工 {1},-
+Jove.SurvivalBrief.Con.TooltipBuildingOutput,每天产量 {0} · 库存 {1},-
+Jove.SurvivalBrief.Con.Construction,建造需求,-
+Jove.SurvivalBrief.Con.RowConstruction,{0} {1} · 在建 {2} 处,-
+Jove.SurvivalBrief.Con.TooltipConstruction,{0}：在建工地还缺 {1}，共 {2} 处,-
+Jove.SurvivalBrief.Con.FoodSummary,合计 {0}/天 · 全部库存可撑 {1} 天,-
+Jove.SurvivalBrief.Con.RowStock,{0} · 只有它能撑 {1} 天,-
+Jove.SurvivalBrief.Con.TooltipFoodOnly,可撑 {0} 天,-
+Jove.SurvivalBrief.Con.CompactEmpty,无海狸,-
+Jove.SurvivalBrief.Con.Hint,点击展开消耗详情,-
+Jove.SurvivalBrief.Con.Close,收起,-
+Jove.SurvivalBrief.Con.DetailTitle,消耗分析详情,-
+Jove.SurvivalBrief.Con.Compact,食 {0} 天 · 水 {1} 天,-
+Jove.SurvivalBrief.Con.PopShort,只海狸（成年 {0} · 幼年 {1}）,-
+Jove.SurvivalBrief.Con.ColName,名称,-
+Jove.SurvivalBrief.Con.ColStock,库存,-
+Jove.SurvivalBrief.Con.ColPerDay,每天,-
+Jove.SurvivalBrief.Con.ColDays,可撑,-
+Jove.SurvivalBrief.Con.Sites,在建 {0} 处,-
+Jove.SurvivalBrief.Con.Missing,还缺 {0},-
+Jove.SurvivalBrief.Con.BuildingCount,×{0}（开工 {1}）,-
+Jove.SurvivalBrief.Con.BarText,{0}/{1}/{2},-
+Jove.SurvivalBrief.Con.DaysChip,{0} 天,-
+Jove.SurvivalBrief.Con.PerDayChip,{0}/天,-
+Jove.SurvivalBrief.Con.BuildingSection,建筑,-
+Jove.SurvivalBrief.Con.BuildingSummary,在建 {0} 处 · 生产 {1} 类,-

@@ -1,0 +1,49 @@
+ID,Text,Comment
+Jove.SurvivalBrief.Duration.Days,{0}d,-
+Jove.SurvivalBrief.Duration.Hours,{0}h,-
+Jove.SurvivalBrief.Duration.Minutes,{0}m,-
+Jove.SurvivalBrief.Duration.DaysHours,{0}d {1}h,-
+Jove.SurvivalBrief.DroughtIn,Drought in {0},-
+Jove.SurvivalBrief.BadtideIn,Badtide in {0},-
+Jove.SurvivalBrief.DroughtLeft,Drought left {0},-
+Jove.SurvivalBrief.BadtideLeft,Badtide left {0},-
+Jove.SurvivalBrief.Con.Header,Consumption,-
+Jove.SurvivalBrief.Con.NoBeavers,No beavers yet,-
+Jove.SurvivalBrief.Con.Pop,{0} beavers ({1} adults / {2} children),-
+Jove.SurvivalBrief.Con.Needs,Per beaver per day: food {0} pts · water {1} pts,-
+Jove.SurvivalBrief.Con.Food,Food,-
+Jove.SurvivalBrief.Con.Water,Water,-
+Jove.SurvivalBrief.Con.Buildings,Building use,-
+Jove.SurvivalBrief.Con.None,none,-
+Jove.SurvivalBrief.Con.Row,{0}/beaver/day · {1}/day · {2} days left,-
+Jove.SurvivalBrief.Con.RowBuilding,{0} x{1} ({2} working),-
+Jove.SurvivalBrief.Con.RowBuildingAmount,{0} {1}/day,-
+Jove.SurvivalBrief.Con.TooltipSupplyHead,{0},-
+Jove.SurvivalBrief.Con.TooltipSupplyBody,{0} buildings · {1}/day · stock {2},-
+Jove.SurvivalBrief.Con.TooltipBuilding,{0},-
+Jove.SurvivalBrief.Con.TooltipBuildingBody,{0} buildings · {1} working,-
+Jove.SurvivalBrief.Con.TooltipBuildingOutput,{0}/day · stock {1},-
+Jove.SurvivalBrief.Con.Construction,Construction,-
+Jove.SurvivalBrief.Con.RowConstruction,{0} {1} · {2} sites,-
+Jove.SurvivalBrief.Con.TooltipConstruction,{0}: {1} still needed across {2} sites,-
+Jove.SurvivalBrief.Con.FoodSummary,{0}/day total · all stock lasts {1} days,-
+Jove.SurvivalBrief.Con.RowStock,{0} · alone lasts {1} days,-
+Jove.SurvivalBrief.Con.TooltipFoodOnly,lasts {0} days,-
+Jove.SurvivalBrief.Con.CompactEmpty,no beavers,-
+Jove.SurvivalBrief.Con.Hint,Click for details,-
+Jove.SurvivalBrief.Con.Close,close,-
+Jove.SurvivalBrief.Con.DetailTitle,Consumption details,-
+Jove.SurvivalBrief.Con.Compact,food {0}d · water {1}d,-
+Jove.SurvivalBrief.Con.PopShort,beavers ({0} adults · {1} children),-
+Jove.SurvivalBrief.Con.ColName,Name,-
+Jove.SurvivalBrief.Con.ColStock,Stock,-
+Jove.SurvivalBrief.Con.ColPerDay,Per day,-
+Jove.SurvivalBrief.Con.ColDays,Lasts,-
+Jove.SurvivalBrief.Con.Sites,{0} sites,-
+Jove.SurvivalBrief.Con.Missing,{0} missing,-
+Jove.SurvivalBrief.Con.BuildingCount,x{0} ({1} working),-
+Jove.SurvivalBrief.Con.BarText,{0}/{1}/{2},-
+Jove.SurvivalBrief.Con.DaysChip,{0} d,-
+Jove.SurvivalBrief.Con.PerDayChip,{0}/day,-
+Jove.SurvivalBrief.Con.BuildingSection,Buildings,-
+Jove.SurvivalBrief.Con.BuildingSummary,{0} under construction · {1} producing,-

@@ -1,0 +1,8 @@
+<Project>
+  <!-- 游戏会把 Mod 目录下所有 dll 都加载。编译产物放在 Mods 外面，避免旧的 Jove.Timer.dll 再被当成第二个 Mod。 -->
+  <PropertyGroup>
+    <BaseOutputPath>$(HOME)/Documents/Timberborn/.build/SurvivalBrief/bin/</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(HOME)/Documents/Timberborn/.build/SurvivalBrief/obj/</BaseIntermediateOutputPath>
+    <MSBuildProjectExtensionsPath>$(HOME)/Documents/Timberborn/.build/SurvivalBrief/obj/</MSBuildProjectExtensionsPath>
+  </PropertyGroup>
+</Project>
